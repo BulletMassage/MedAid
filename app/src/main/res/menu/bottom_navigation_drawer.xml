@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <!--Home-->
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home"
+        android:icon="@drawable/ic_home_black_24dp"></item>
+
+    <!--Cabinet-->
+    <item
+        android:id="@+id/nav_cabinet"
+        android:title="Cabinet"
+        android:icon="@drawable/ic_kitchen_black_24dp"></item>
+
+    <!--Profile-->
+    <item
+        android:id="@+id/nav_profile"
+        android:title="Profile"
+        android:icon="@drawable/ic_person_black_24dp"></item>
+
+</menu>
