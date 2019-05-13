@@ -43,6 +43,14 @@ public class PrescriptionDatabase extends SQLiteOpenHelper {
         db.insert(TABLE_NAME, null, cv);
     }
 
+    public void update(String id, String title, String description) {
+        db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("TITLE", title);
+        cv.put("DESCRIPTION", description);
+        db.update(TABLE_NAME, cv, "_id=" + id, null);
+    }
+
 /*    public void view() {
         db = getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + TABLE_NAME + ";", null);
