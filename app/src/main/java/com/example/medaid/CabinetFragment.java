@@ -1,6 +1,5 @@
 package com.example.medaid;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
@@ -19,7 +18,7 @@ public class CabinetFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_cabinet, container, false);
 
         BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottom_navigation);
-        bottomNav.setVisibility(View.VISIBLE);
+        ((MainActivity)getActivity()).showBottomNavigationView(bottomNav);
 
         getActivity().getSupportFragmentManager().popBackStack();
 
@@ -39,10 +38,9 @@ public class CabinetFragment extends Fragment {
         // Populate RecycleView with prescription items
         RecyclerView recyclerView = view.findViewById(R.id.cabinet_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        PrescriptionRecycleAdapter adapter = new PrescriptionRecycleAdapter(getActivity(), MainActivity.prescriptionDatabase.getCursorAll());
+        CabinetAdapter adapter = new CabinetAdapter(getActivity(), MainActivity.prescriptionDatabase.getCursorAll());
         recyclerView.setAdapter(adapter);
 
         return view;
     }
-
 }

@@ -10,6 +10,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,25 +24,33 @@ public class AddEditPrescriptionFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottom_navigation);
-        bottomNav.setVisibility(View.INVISIBLE);
+        ((MainActivity)getActivity()).hideBottomNavigationView(bottomNav);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_addeditprescription, container, false);
 
-        final TextInputEditText title = view.findViewById(R.id.addEdit_title);
-        final TextView description = view.findViewById(R.id.addEdit_description);
+        // Get toolbar
+        Toolbar toolbar = (Toolbar)view.findViewById(R.id.toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Add/Edit");
+
+        // Get Action Buttons
         FloatingActionButton savePrescription = view.findViewById(R.id.addEdit_savePrescription_button);
         FloatingActionButton deletePrescription = view.findViewById(R.id.addEdit_deletePrescription_button);
 
-        // if we clicked on an existing prescription
+        // Get text fields
+        final TextInputEditText title = view.findViewById(R.id.addEdit_title);
+        final TextView description = view.findViewById(R.id.addEdit_description);
+
+        // if we clicked on an existing prescription get title and description from bundle via getArguments()
         if (getArguments() != null) {
             title.setText(getArguments().getString("TITLE"));
             description.setText(getArguments().getString("DESCRIPTION"));
         }
 
-        // Insert item into database
+        // Insert new item into database or update existing entry
         savePrescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,6 +59,8 @@ public class AddEditPrescriptionFragment extends Fragment {
                 } else {
                     MainActivity.prescriptionDatabase.insert(title.getText().toString(), description.getText().toString());
                 }
+
+                // Go to CabinetFragment
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right)
                         .replace(R.id.fragment_container, new CabinetFragment())

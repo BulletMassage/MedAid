@@ -7,12 +7,12 @@
 
 
     <!-- Main content -->
-    <TextView
+<!--    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16dp"
         android:layout_marginLeft="18dp"
-        android:text="Please add a prescription..."/>
+        android:text="Please add a prescription..."/>-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cabinet_recyclerview"
@@ -38,25 +38,3 @@
         app:elevation="6dp"/>
 
 </android.support.design.widget.CoordinatorLayout>
-
-
-
-
-
-<!--    <ImageButton
-        android:id="@+id/cabinet_newPrescription_button"
-        android:tint="@color/colorAccent"
-        android:background="@null"
-        android:elevation="2dp"
-
-        android:scaleType="fitCenter"
-
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        app:srcCompat="@drawable/ic_add_circle_black_24dp" />-->
-
-
-
