@@ -51,40 +51,14 @@ public class PrescriptionDatabase extends SQLiteOpenHelper {
         db.update(TABLE_NAME, cv, "_id=" + id, null);
     }
 
-/*    public void view() {
-        db = getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_NAME + ";", null);
-        StringBuilder sb = new StringBuilder();
-        while (c.moveToNext()) {
-            sb.append(c.getString(0) + " " + c.getString(1) + "\n");
-        }
-        Toast.makeText(ctx, sb.toString(), Toast.LENGTH_LONG).show();
-    }*/
-
-/*    public void delete(int id, String title) {
+    public void delete(String id) {
         db = getWritableDatabase();
-        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_NAME + ";", null);
-        int preCount = c.getCount();
-
-        db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE TITLE = \"" + title + "\" OR rowid = \"" + id + "\";");
-
-        c = db.rawQuery("SELECT * FROM " + TABLE_NAME + ";", null);
-        int postCount = c.getCount();
-
-        if (preCount == postCount) {
-            Toast.makeText(ctx, "Title and ID do not exist.", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(ctx, "Delete successful", Toast.LENGTH_LONG).show();
-        }
-    }*/
+        db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE rowid = \"" + id + "\";");
+    }
 
     public Cursor getCursorAll() {
         db = getReadableDatabase();
         return db.rawQuery("SELECT * FROM " + TABLE_NAME + ";", null);
     }
 
-/*    public Cursor getCursorRange(String min, String max) {
-        db = getReadableDatabase();
-        return db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE _id BETWEEN " + min + " AND " + max + ";", null);
-    }*/
 }

@@ -17,8 +17,10 @@ public class CabinetFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cabinet, container, false);
+
         BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottom_navigation);
         bottomNav.setVisibility(View.VISIBLE);
+
         getActivity().getSupportFragmentManager().popBackStack();
 
         // Go to add/edit prescription fragment

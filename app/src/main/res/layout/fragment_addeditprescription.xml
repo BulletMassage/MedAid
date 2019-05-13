@@ -1,64 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/addEdit_title"
-        android:inputType="textShortMessage"
-        android:hint="Prescription title"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:ems="10"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        app:layout_constraintBottom_toTopOf="@+id/addEdit_description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/addEdit_description"
-        android:inputType="textLongMessage"
-        android:hint="Description"
+            <!--Title-->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Title"
 
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:ems="10"
+                app:helperTextEnabled="true"
+                app:helperText="Required"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addEdit_title" />
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
 
-    <Button
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addEdit_savePrescription_button">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/addEdit_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <!--Description-->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description"
+
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+
+                android:layout_alignParentBottom="true">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/addEdit_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!--Save-->
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/addEdit_savePrescription_button"
-        android:text="Save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
-        android:layout_width="84dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="8dp"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
 
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif-light"
-        android:textAllCaps="false"
+        app:srcCompat="@drawable/ic_check_black_24dp"
+        app:fabSize="normal"
+        android:tint="#FFFF"
+        app:backgroundTint="@color/colorAccent"
+        app:elevation="6dp"/>
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addEdit_description" />
+    <!--Delete-->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addEdit_deletePrescription_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
+        android:layout_gravity="bottom|left"
+        android:layout_margin="16dp"
 
-</android.support.constraint.ConstraintLayout>
+        app:srcCompat="@drawable/ic_delete_forever_black_24dp"
+        app:fabSize="mini"
+        android:tint="#FFFF"
+        app:backgroundTint="#000"
+        app:elevation="3dp"/>
+</android.support.design.widget.CoordinatorLayout>

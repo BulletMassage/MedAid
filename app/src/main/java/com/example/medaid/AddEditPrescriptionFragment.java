@@ -6,6 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,9 +29,10 @@ public class AddEditPrescriptionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_addeditprescription, container, false);
 
-        final TextView title = view.findViewById(R.id.addEdit_title);
+        final TextInputEditText title = view.findViewById(R.id.addEdit_title);
         final TextView description = view.findViewById(R.id.addEdit_description);
-        Button savePrescription = view.findViewById(R.id.addEdit_savePrescription_button);
+        FloatingActionButton savePrescription = view.findViewById(R.id.addEdit_savePrescription_button);
+        FloatingActionButton deletePrescription = view.findViewById(R.id.addEdit_deletePrescription_button);
 
         // if we clicked on an existing prescription
         if (getArguments() != null) {
@@ -45,7 +49,20 @@ public class AddEditPrescriptionFragment extends Fragment {
                 } else {
                     MainActivity.prescriptionDatabase.insert(title.getText().toString(), description.getText().toString());
                 }
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right)
+                        .replace(R.id.fragment_container, new CabinetFragment())
+                        .commit();
+            }
+        });
 
+        // Delete item from database
+        deletePrescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getArguments() != null) {
+                    MainActivity.prescriptionDatabase.delete(getArguments().getString("_id"));
+                }
 
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right)

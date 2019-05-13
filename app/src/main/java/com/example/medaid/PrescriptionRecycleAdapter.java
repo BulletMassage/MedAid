@@ -34,9 +34,6 @@ public class PrescriptionRecycleAdapter extends RecyclerView.Adapter<Prescriptio
                 itemTitle.setText(cursor.getString(cursor.getColumnIndex("TITLE")));
                 itemDescription.setText(cursor.getString(cursor.getColumnIndex("DESCRIPTION")));
 
-                //TextView itemID = view.findViewById(R.id.item_ID);
-                //itemID.setText("(" + cursor.getString(cursor.getColumnIndex("_id")) + ")");
-
             }
         };
     }
@@ -76,8 +73,6 @@ public class PrescriptionRecycleAdapter extends RecyclerView.Adapter<Prescriptio
                 args.putString("TITLE", cursor.getString(cursor.getColumnIndex("TITLE")));
                 args.putString("DESCRIPTION", cursor.getString(cursor.getColumnIndex("DESCRIPTION")));
 
-                //Toast.makeText(ctx,  cursor.getString(cursor.getColumnIndex("_id")) + " " + cursor.getString(cursor.getColumnIndex("TITLE")), Toast.LENGTH_LONG).show();
-
                 AddEditPrescriptionFragment fragment = new AddEditPrescriptionFragment();
                 fragment.setArguments(args);
 
@@ -88,7 +83,6 @@ public class PrescriptionRecycleAdapter extends RecyclerView.Adapter<Prescriptio
                         .commit();
             }
         });
-
 
     }
 }
