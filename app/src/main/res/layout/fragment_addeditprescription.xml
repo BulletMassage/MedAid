@@ -17,8 +17,8 @@
 
             <include
                 android:id="@+id/toolbar"
-                layout="@layout/toolbar" />
-
+                layout="@layout/toolbar"
+                />
 
             <!--Title-->
             <android.support.design.widget.TextInputLayout
@@ -84,7 +84,7 @@
         app:elevation="6dp"/>
 
     <!--Delete-->
-    <android.support.design.widget.FloatingActionButton
+<!--    <android.support.design.widget.FloatingActionButton
         android:id="@+id/addEdit_deletePrescription_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -95,6 +95,8 @@
         app:srcCompat="@drawable/ic_delete_forever_black_24dp"
         app:fabSize="mini"
         android:tint="#FFFF"
-        app:backgroundTint="#000"
-        app:elevation="3dp"/>
+        app:backgroundTint="@color/colorGray"
+        android:scaleType="fitXY"
+        app:elevation="3dp"/>-->
+
 </android.support.design.widget.CoordinatorLayout>
