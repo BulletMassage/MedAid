@@ -1,17 +1,12 @@
 package com.example.medaid;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -20,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 public class AddEditPrescriptionFragment extends Fragment {
@@ -117,21 +111,6 @@ public class AddEditPrescriptionFragment extends Fragment {
                         .commit();
             }
         });
-
-/*        // Delete item from database
-        deletePrescription.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getArguments() != null) {
-                    MainActivity.prescriptionDatabase.delete(getArguments().getString("_id"));
-                }
-
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.fragment_container, new CabinetFragment())
-                        .commit();
-            }
-        });*/
 
         return view;
     }

@@ -28,6 +28,7 @@
 
                 app:helperTextEnabled="true"
                 app:helperText="Required"
+
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 
                 android:layout_marginTop="8dp"
@@ -82,21 +83,5 @@
         android:tint="#FFFF"
         app:backgroundTint="@color/colorAccent"
         app:elevation="6dp"/>
-
-    <!--Delete-->
-<!--    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/addEdit_deletePrescription_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_gravity="bottom|left"
-        android:layout_margin="16dp"
-
-        app:srcCompat="@drawable/ic_delete_forever_black_24dp"
-        app:fabSize="mini"
-        android:tint="#FFFF"
-        app:backgroundTint="@color/colorGray"
-        android:scaleType="fitXY"
-        app:elevation="3dp"/>-->
 
 </android.support.design.widget.CoordinatorLayout>
