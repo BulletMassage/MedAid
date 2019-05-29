@@ -1,4 +1,4 @@
-package com.example.medaid;
+package com.example.medaid.activities_fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.medaid.R;
 
 import java.text.DateFormat;
 import java.util.Calendar;

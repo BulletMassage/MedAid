@@ -1,4 +1,4 @@
-package com.example.medaid;
+package com.example.medaid.activities_fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.medaid.R;
 
 public class ProfileFragment extends Fragment {
     @Nullable

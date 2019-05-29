@@ -1,27 +1,22 @@
-package com.example.medaid;
+package com.example.medaid.activities_fragments;
 
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
+
+import com.example.medaid.R;
 
 public class MainActivity extends AppCompatActivity {
-    static PrescriptionDatabase prescriptionDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // database init or get existing
-        prescriptionDatabase = new PrescriptionDatabase(this, PrescriptionDatabase.DB_Name, null, 1);
-
-        // fragment nav
+        // bottom drawer fragment navigation
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         if (savedInstanceState == null) {
