@@ -8,9 +8,14 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity(tableName = "prescriptions")
 public class Prescription implements Parcelable {
+
+    /*--------------------Variables--------------------*/
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -25,34 +30,24 @@ public class Prescription implements Parcelable {
     @ColumnInfo(name = "quantity")
     private int quantity;
 
+    @ColumnInfo (name = "schedule")
+    private List<WeeklySchedule> schedule = new ArrayList<>();
 
-    public Prescription(String title, String description, int quantity) {
+
+    /*--------------------Constructors--------------------*/
+
+    public Prescription(String title, String description, int quantity, List<WeeklySchedule> schedule) {
         this.title = title;
         this.description = description;
         this.quantity = quantity;
+        this.schedule = schedule;
     }
 
     @Ignore
-    public Prescription(){}
+    public Prescription(){quantity = -1;}
 
-    protected Prescription(Parcel in) {
-        id = in.readInt();
-        title = in.readString();
-        description = in.readString();
-        quantity = in.readInt();
-    }
 
-    public static final Creator<Prescription> CREATOR = new Creator<Prescription>() {
-        @Override
-        public Prescription createFromParcel(Parcel in) {
-            return new Prescription(in);
-        }
-
-        @Override
-        public Prescription[] newArray(int size) {
-            return new Prescription[size];
-        }
-    };
+    /*----------------Getter/Setter/Helper----------------*/
 
     public int getId() {
         return id;
@@ -86,16 +81,60 @@ public class Prescription implements Parcelable {
         this.quantity = quantity;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public List<WeeklySchedule> getSchedule() {
+        return schedule;
+    }
+
+    public void addWeeklySchedule(WeeklySchedule weeklySchedule) {
+        schedule.add(weeklySchedule);
+    }
+
+    public void deleteWeeklySchedule (WeeklySchedule weeklySchedule) {
+        schedule.remove(weeklySchedule);
+    }
+
+    public boolean timeExists (String time) {
+        for (WeeklySchedule instance : schedule) {
+            if (instance.getTime().matches(time)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /*--------------------Parcelable--------------------*/
+    protected Prescription(Parcel in) {
+        this.id = in.readInt();
+        this.title = in.readString();
+        this.description = in.readString();
+        this.quantity = in.readInt();
+        this.schedule = in.createTypedArrayList(WeeklySchedule.CREATOR);
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(title);
-        dest.writeString(description);
-        dest.writeInt(quantity);
+        dest.writeInt(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.description);
+        dest.writeInt(this.quantity);
+        dest.writeTypedList(this.schedule);
+    }
+
+    public static final Creator<Prescription> CREATOR = new Creator<Prescription>() {
+        @Override
+        public Prescription createFromParcel(Parcel source) {
+            return new Prescription(source);
+        }
+
+        @Override
+        public Prescription[] newArray(int size) {
+            return new Prescription[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }

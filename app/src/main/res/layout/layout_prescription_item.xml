@@ -15,7 +15,7 @@
             android:layout_height="24dp"
             android:layout_marginLeft="16dp"
             android:layout_gravity="center"
-            android:scaleX=".8"
+            android:scaleX=".7"
             android:scaleY=".9"
             android:background="@drawable/ic_prescription_bottle"
             android:backgroundTint="@color/colorGray"/>
@@ -76,6 +76,6 @@
         android:layout_height="1dp"
         android:layout_marginLeft="72dp"
 
-        android:background="@color/colorGray" />
+        android:background="@color/colorLightGray" />
 
 </LinearLayout>

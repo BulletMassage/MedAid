@@ -19,54 +19,116 @@
 
             <include
                 android:id="@+id/toolbar"
-                layout="@layout/toolbar"
-                />
+                layout="@layout/toolbar" />
 
             <!--Title-->
             <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Title"
-
-                app:helperTextEnabled="true"
-                app:helperText="Required"
+                android:id="@+id/addEdit_title"
 
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
-                android:layout_marginTop="8dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
 
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addEdit_savePrescription_button">
+                android:hint="Title">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/addEdit_title"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+
+                    android:inputType="text"/>
             </android.support.design.widget.TextInputLayout>
 
 
             <!--Description-->
             <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Description"
+                android:id="@+id/addEdit_description"
 
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
-                android:layout_marginTop="8dp"
+                android:layout_alignParentBottom="true"
+
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-
-                android:layout_alignParentBottom="true">
+                android:hint="Description">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/addEdit_description"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+
+                    android:inputType="textMultiLine"/>
             </android.support.design.widget.TextInputLayout>
+
+
+            <!--Quantity-->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/addEdit_quantity"
+
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:hint="Quantity">
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="96dp"
+                    android:layout_height="wrap_content"
+
+                    android:inputType="number"
+                    android:maxLength="4" />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Schedule"
+                android:textSize="18sp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="32dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="126dp"
+                android:background="@color/colorLightGray" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/addEditSchedule_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+
+
+            <Button
+                android:id="@+id/newSchedule_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+
+                android:text="add"
+                android:textAllCaps="false"
+
+                android:textSize="14dp" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+            </View>
 
         </LinearLayout>
     </ScrollView>
