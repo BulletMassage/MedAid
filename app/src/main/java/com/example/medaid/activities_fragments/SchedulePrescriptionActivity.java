@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -31,6 +32,7 @@ public class SchedulePrescriptionActivity extends AppCompatActivity {
     /*ui components*/
     private List<TextView> textViewDays;
     private TextInputEditText mTimePicker;
+    private TextInputLayout mDose;
     private Calendar mCalendar;
     private Button saveScheduleButton;
     private Toolbar toolbar;
@@ -66,6 +68,7 @@ public class SchedulePrescriptionActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         saveScheduleButton = findViewById(R.id.saveSchedule_button);
         textViewDays = new ArrayList<>();
+        mDose = findViewById(R.id.schedule_dose);
 
         // Get/set textViews
         for (String day : days) {
@@ -126,11 +129,16 @@ public class SchedulePrescriptionActivity extends AppCompatActivity {
         saveScheduleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                WeeklySchedule mWeeklySchedule = new WeeklySchedule();
+                if (!mDose.getEditText().getText().toString().matches("")) {
+                    mWeeklySchedule.setDose(Integer.valueOf(mDose.getEditText().getText().toString()));
+                } else {
+                    mWeeklySchedule.setDose(-1);
+                }
+
 
                 // Create new weekly schedule with selected days
-                WeeklySchedule mWeeklySchedule = new WeeklySchedule();
                 mWeeklySchedule.setTime(CalendarTypeConverter.getTimeFormat(mCalendar));
-
                 for (TextView textViewDay : textViewDays) {
                     if (textViewDay.isSelected()) {
                         String day = getResources().getResourceName(textViewDay.getId()).split("_")[0];

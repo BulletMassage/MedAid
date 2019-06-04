@@ -228,7 +228,7 @@ public class AddEditPrescriptionActivity extends AppCompatActivity {
                     Intent intent = new Intent(this, AlertReceiver.class);
                     intent.putExtra("notificationID", notificationID);
                     intent.putExtra("title", mPrescription.getTitle());
-                    intent.putExtra("quantity", mPrescription.getQuantity());
+                    intent.putExtra("dose", weeklySchedule.getDose());
 
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notificationID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);

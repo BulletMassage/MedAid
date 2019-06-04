@@ -20,11 +20,11 @@ public class AlertReceiver extends BroadcastReceiver {
 
         int notificationID = intent.getIntExtra("notificationID", 1);
         String title = intent.getStringExtra("title");
-        int quanitity = intent.getIntExtra("quantity", 0);
+        int dose = intent.getIntExtra("dose", 0);
 
         String contentText = "This is a friendly reminder to take";
-        if (quanitity > 0) {
-            contentText += " " + quanitity;
+        if (dose > 0) {
+            contentText += " " + dose;
         }
         contentText += " " + title + ".";
 

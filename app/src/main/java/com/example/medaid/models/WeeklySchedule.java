@@ -10,10 +10,12 @@ import java.util.List;
 public class WeeklySchedule implements Parcelable{
     private HashMap<String, Boolean> days;
     private String time;
+    private int dose;
 
     public WeeklySchedule() {
         days = new HashMap<>();
         time = "";
+        dose = -1;
 
         List<String> keys = Arrays.asList("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
         for(String day : keys) {
@@ -45,6 +47,14 @@ public class WeeklySchedule implements Parcelable{
         this.time = time;
     }
 
+    public int getDose() {
+        return dose;
+    }
+
+    public void setDose(int dose) {
+        this.dose = dose;
+    }
+
     public int getSize() {
         int size = 0;
         for (Boolean containsDay : days.values()) {
@@ -69,11 +79,13 @@ public class WeeklySchedule implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeSerializable(this.days);
         dest.writeString(this.time);
+        dest.writeInt(this.dose);
     }
 
     protected WeeklySchedule(Parcel in) {
         this.days = (HashMap<String, Boolean>) in.readSerializable();
         this.time = in.readString();
+        this.dose = in.readInt();
     }
 
     public static final Creator<WeeklySchedule> CREATOR = new Creator<WeeklySchedule>() {
