@@ -18,6 +18,7 @@ public class Prescription implements Parcelable {
     /*--------------------Variables--------------------*/
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     private int id;
 
     @NonNull

@@ -1,7 +1,7 @@
 package com.example.medaid.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,23 +9,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.medaid.R;
-import com.example.medaid.helpers.CalendarTypeConverter;
 import com.example.medaid.models.WeeklySchedule;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 public class ScheduleRecyclerAdapter extends RecyclerView.Adapter<ScheduleRecyclerAdapter.ScheduleViewHolder> {
     private List<WeeklySchedule> mScheduleList;
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
         void onDeleteClick(int position);
     }
 
@@ -35,23 +30,28 @@ public class ScheduleRecyclerAdapter extends RecyclerView.Adapter<ScheduleRecycl
 
 
     public static class ScheduleViewHolder extends RecyclerView.ViewHolder {
-        public TextView sunday, monday, tuesday, wednesday, thursday, friday, saturday;
-        public TextView time;
-        public ImageView deleteWeeklySchedule;
+        private List<TextView> textViewDays;
+        private List<String> days = Arrays.asList("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday");
+        private static final String ID = "_addEdit";
+        private TextView time;
+        private ImageView deleteWeeklySchedule;
 
         public ScheduleViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
-            sunday = itemView.findViewById(R.id.sunday);
-            monday = itemView.findViewById(R.id.monday);
-            tuesday = itemView.findViewById(R.id.tuesday);
-            wednesday = itemView.findViewById(R.id.wednesday);
-            thursday = itemView.findViewById(R.id.thursday);
-            friday = itemView.findViewById(R.id.friday);
-            saturday = itemView.findViewById(R.id.saturday);
 
             time = itemView.findViewById(R.id.item_time);
             deleteWeeklySchedule = itemView.findViewById(R.id.delete_weeklySchedule);
+            textViewDays = new ArrayList<>();
 
+            // Init for textViewDays
+            for (String days : days) {
+                int idRes = itemView.getResources().getIdentifier(days + ID, "id", itemView.getContext().getPackageName());
+                TextView textViewDay = itemView.findViewById(idRes);
+                textViewDay.setVisibility(View.GONE);
+                textViewDays.add(textViewDay);
+            }
+
+            // OnClick
             deleteWeeklySchedule.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -79,46 +79,21 @@ public class ScheduleRecyclerAdapter extends RecyclerView.Adapter<ScheduleRecycl
 
     @Override
     public void onBindViewHolder(ScheduleViewHolder holder, int position) {
-        if (!mScheduleList.get(position).getDay("Sunday")) {
-            holder.sunday.setVisibility(View.GONE);
-        } else {
-            holder.sunday.setVisibility(View.VISIBLE);
-        }
-        if (!mScheduleList.get(position).getDay("Monday")) {
-            holder.monday.setVisibility(View.GONE);
-        } else {
-            holder.monday.setVisibility(View.VISIBLE);
-        }
-        if (!mScheduleList.get(position).getDay("Tuesday")) {
-            holder.tuesday.setVisibility(View.GONE);
-        } else {
-            holder.tuesday.setVisibility(View.VISIBLE);
-        }
-        if (!mScheduleList.get(position).getDay("Wednesday")) {
-            holder.wednesday.setVisibility(View.GONE);
-        } else {
-            holder.wednesday.setVisibility(View.VISIBLE);
-        }
-        if (!mScheduleList.get(position).getDay("Thursday")) {
-            holder.thursday.setVisibility(View.GONE);
-        } else {
-            holder.thursday.setVisibility(View.VISIBLE);
-        }
-        if (!mScheduleList.get(position).getDay("Friday")) {
-            holder.friday.setVisibility(View.GONE);
-        } else {
-            holder.friday.setVisibility(View.VISIBLE);
-        }
-        if (!mScheduleList.get(position).getDay("Saturday")) {
-            holder.saturday.setVisibility(View.GONE);
-        } else {
-            holder.saturday.setVisibility(View.VISIBLE);
-        }
-
+        Context context = holder.time.getContext();
         holder.time.setText(mScheduleList.get(position).getTime());
+
+        // Set textView to visible for the days in the weekly schedule.
+        for (HashMap.Entry<String, Boolean> day: mScheduleList.get(position).getDays().entrySet()) {
+            if (day.getValue()) {
+                for (TextView textViewDay : holder.textViewDays) {
+                    String dayID = context.getResources().getResourceName(textViewDay.getId());
+                    if (dayID.contains(day.getKey().toLowerCase())) {
+                        textViewDay.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        }
     }
-
-
 
     @Override
     public int getItemCount() {

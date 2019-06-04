@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -19,19 +20,25 @@ import com.example.medaid.R;
 import com.example.medaid.helpers.CalendarTypeConverter;
 import com.example.medaid.models.WeeklySchedule;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 public class SchedulePrescriptionActivity extends AppCompatActivity {
 
     /*ui components*/
+    private List<TextView> textViewDays;
     private TextInputEditText mTimePicker;
     private Calendar mCalendar;
     private Button saveScheduleButton;
-    private TextView sunday, monday, tuesday, wednesday, thursday, friday, saturday;
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
     /*vars*/
-    Intent output;
+    private Intent output;
+    private List<String> days = Arrays.asList("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday");
+    private static final String ID = "_schedulePrescription";
 
 
     @Override
@@ -51,20 +58,31 @@ public class SchedulePrescriptionActivity extends AppCompatActivity {
     }
 
 
-    public void initializeVariables() {
-        // Intent
+    private void initializeVariables() {
+        // vars
         output = new Intent();
 
         // UI
         toolbar = findViewById(R.id.toolbar);
         saveScheduleButton = findViewById(R.id.saveSchedule_button);
-        sunday = findViewById(R.id.sunday);
-        monday = findViewById(R.id.monday);
-        tuesday = findViewById(R.id.tuesday);
-        wednesday = findViewById(R.id.wednesday);
-        thursday = findViewById(R.id.thursday);
-        friday = findViewById(R.id.friday);
-        saturday = findViewById(R.id.saturday);
+        textViewDays = new ArrayList<>();
+
+        // Get/set textViews
+        for (String day : days) {
+            int idRes = getResources().getIdentifier(day + ID, "id", getPackageName());
+            TextView textViewDay = findViewById(idRes);
+
+            // Highlight current day
+            Calendar calendar = Calendar.getInstance();
+            String calendarDay = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+            if (calendarDay.matches(day.substring(0,1).toUpperCase() + day.substring(1))) {
+                textViewDay.setSelected(true);
+                textViewDay.setTextColor(getResources().getColor(R.color.colorWhite));
+                textViewDay.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            }
+
+            textViewDays.add(textViewDay);
+        }
 
         // Calender
         mCalendar = Calendar.getInstance();
@@ -77,7 +95,7 @@ public class SchedulePrescriptionActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("New Schedule");
     }
 
-    public void initializeSetOnClick() {
+    private void initializeSetOnClick() {
         // TimePicker
         mTimePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,42 +127,31 @@ public class SchedulePrescriptionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                // Create new weekly schedule with selected days
+                WeeklySchedule mWeeklySchedule = new WeeklySchedule();
+                mWeeklySchedule.setTime(CalendarTypeConverter.getTimeFormat(mCalendar));
+
+                for (TextView textViewDay : textViewDays) {
+                    if (textViewDay.isSelected()) {
+                        String day = getResources().getResourceName(textViewDay.getId()).split("_")[0];
+                        mWeeklySchedule.insertDay(day.substring(0, 1).toUpperCase() + day.substring(1));
+                    }
+                }
+
                 // Custom Toast Message if no days selected
-                if (!sunday.isSelected() && !monday.isSelected() && !tuesday.isSelected() && !wednesday.isSelected() && !thursday.isSelected() && !friday.isSelected() && !saturday.isSelected()) {
+                if (mWeeklySchedule.getSize() == 0) {
                     Toast toast = Toast.makeText(SchedulePrescriptionActivity.this, "Please select one or more days.", Toast.LENGTH_SHORT);
                     View toastView = toast.getView();
                     TextView toastMessage = toastView.findViewById(android.R.id.message);
                     toastMessage.setTextSize(18);
                     toastMessage.setTextColor(getResources().getColor(R.color.colorGray));
                     toastView.setBackgroundColor(Color.TRANSPARENT);
+                    toast.setGravity(Gravity.CENTER, 0, 36);
                     toast.show();
                     return;
                 }
 
-                // Create new weekly schedule with selected days
-                WeeklySchedule mWeeklySchedule = new WeeklySchedule();
-                mWeeklySchedule.setTime(CalendarTypeConverter.getTimeFormat(mCalendar));
-                if (sunday.isSelected()) {
-                    mWeeklySchedule.insertDay("Sunday");
-                }
-                if (monday.isSelected()) {
-                    mWeeklySchedule.insertDay("Monday");
-                }
-                if (tuesday.isSelected()) {
-                    mWeeklySchedule.insertDay("Tuesday");
-                }
-                if (wednesday.isSelected()) {
-                    mWeeklySchedule.insertDay("Wednesday");
-                }
-                if (thursday.isSelected()) {
-                    mWeeklySchedule.insertDay("Thursday");
-                }
-                if (friday.isSelected()) {
-                    mWeeklySchedule.insertDay("Friday");
-                }
-                if (saturday.isSelected()) {
-                    mWeeklySchedule.insertDay("Saturday");
-                }
+
                 output.putExtra("WeeklySchedule", mWeeklySchedule);
                 setResult(RESULT_OK, output);
                 finish();
@@ -153,96 +160,26 @@ public class SchedulePrescriptionActivity extends AppCompatActivity {
 
 
         // Day Listeners
-        sunday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setSelected(!v.isSelected());
-                if (sunday.isSelected()) {
-                    sunday.setTextColor(getResources().getColor(R.color.colorWhite));
-                    sunday.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                } else {
-                    sunday.setTextColor(getResources().getColor(R.color.colorGray));
-                    sunday.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+        for (int i = 0; i < textViewDays.size(); i++) {
+            final int position = i;
+            textViewDays.get(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TextView textViewDay = textViewDays.get(position);
+
+                    textViewDay.setSelected(!textViewDay.isSelected());
+                    if (textViewDay.isSelected()) {
+                        textViewDay.setTextColor(getResources().getColor(R.color.colorWhite));
+                        textViewDay.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    } else {
+                        textViewDay.setTextColor(getResources().getColor(R.color.colorGray));
+                        textViewDay.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                    }
                 }
-            }
-        });
-        monday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setSelected(!v.isSelected());
-                if (monday.isSelected()) {
-                    monday.setTextColor(getResources().getColor(R.color.colorWhite));
-                    monday.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                } else {
-                    monday.setTextColor(getResources().getColor(R.color.colorGray));
-                    monday.setBackgroundColor(getResources().getColor(R.color.colorWhite));
-                }
-            }
-        });
-        tuesday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setSelected(!v.isSelected());
-                if (tuesday.isSelected()) {
-                    tuesday.setTextColor(getResources().getColor(R.color.colorWhite));
-                    tuesday.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                } else {
-                    tuesday.setTextColor(getResources().getColor(R.color.colorGray));
-                    tuesday.setBackgroundColor(getResources().getColor(R.color.colorWhite));
-                }
-            }
-        });
-        wednesday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setSelected(!v.isSelected());
-                if (wednesday.isSelected()) {
-                    wednesday.setTextColor(getResources().getColor(R.color.colorWhite));
-                    wednesday.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                } else {
-                    wednesday.setTextColor(getResources().getColor(R.color.colorGray));
-                    wednesday.setBackgroundColor(getResources().getColor(R.color.colorWhite));
-                }
-            }
-        });
-        thursday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setSelected(!v.isSelected());
-                if (thursday.isSelected()) {
-                    thursday.setTextColor(getResources().getColor(R.color.colorWhite));
-                    thursday.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                } else {
-                    thursday.setTextColor(getResources().getColor(R.color.colorGray));
-                    thursday.setBackgroundColor(getResources().getColor(R.color.colorWhite));
-                }
-            }
-        });
-        friday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setSelected(!v.isSelected());
-                if (friday.isSelected()) {
-                    friday.setTextColor(getResources().getColor(R.color.colorWhite));
-                    friday.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                } else {
-                    friday.setTextColor(getResources().getColor(R.color.colorGray));
-                    friday.setBackgroundColor(getResources().getColor(R.color.colorWhite));
-                }
-            }
-        });
-        saturday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setSelected(!v.isSelected());
-                if (saturday.isSelected()) {
-                    saturday.setTextColor(getResources().getColor(R.color.colorWhite));
-                    saturday.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                } else {
-                    saturday.setTextColor(getResources().getColor(R.color.colorGray));
-                    saturday.setBackgroundColor(getResources().getColor(R.color.colorWhite));
-                }
-            }
-        });
+
+            });
+        }
+
     }
+
 }

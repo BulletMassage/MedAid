@@ -3,15 +3,18 @@
     package="com.example.medaid">
 
     <application
+        android:name=".MedAid"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities_fragments.SchedulePrescriptionActivity">
-        </activity>
+
+        <activity android:name=".activities_fragments.SchedulePrescriptionActivity"/>
+
         <activity android:name=".activities_fragments.AddEditPrescriptionActivity" />
+
         <activity android:name=".activities_fragments.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,6 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".helpers.AlertReceiver"/>
+
     </application>
 
 </manifest>

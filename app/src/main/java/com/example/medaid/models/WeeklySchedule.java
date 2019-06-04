@@ -3,26 +3,29 @@ package com.example.medaid.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
-public class WeeklySchedule implements Parcelable {
+public class WeeklySchedule implements Parcelable{
     private HashMap<String, Boolean> days;
     private String time;
 
     public WeeklySchedule() {
-        time = "";
         days = new HashMap<>();
-        days.put("Sunday", false);
-        days.put("Monday", false);
-        days.put("Tuesday", false);
-        days.put("Wednesday", false);
-        days.put("Thursday", false);
-        days.put("Friday", false);
-        days.put("Saturday", false);
+        time = "";
+
+        List<String> keys = Arrays.asList("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+        for(String day : keys) {
+            days.put(day, false);
+        }
     }
 
+    public HashMap<String, Boolean> getDays() {
+        return days;
+    }
 
-    public Boolean getDay(String day) {
+    public Boolean hasDay(String day) {
         return days.get(day);
     }
 
@@ -40,6 +43,16 @@ public class WeeklySchedule implements Parcelable {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public int getSize() {
+        int size = 0;
+        for (Boolean containsDay : days.values()) {
+            if (containsDay) {
+                size++;
+            }
+        }
+        return size;
     }
 
     @Override

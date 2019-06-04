@@ -34,7 +34,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/sunday"
+                        android:id="@+id/sunday_addEdit"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="Sun"
@@ -42,7 +42,7 @@
                         android:layout_marginRight="@dimen/dayWidth"/>
 
                     <TextView
-                        android:id="@+id/monday"
+                        android:id="@+id/monday_addEdit"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="Mon"
@@ -50,7 +50,7 @@
                         android:layout_marginRight="@dimen/dayWidth"/>
 
                     <TextView
-                        android:id="@+id/tuesday"
+                        android:id="@+id/tuesday_addEdit"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="Tue"
@@ -58,7 +58,7 @@
                         android:layout_marginRight="@dimen/dayWidth"/>
 
                     <TextView
-                        android:id="@+id/wednesday"
+                        android:id="@+id/wednesday_addEdit"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="Wed"
@@ -66,7 +66,7 @@
                         android:layout_marginRight="@dimen/dayWidth"/>
 
                     <TextView
-                        android:id="@+id/thursday"
+                        android:id="@+id/thursday_addEdit"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="Thu"
@@ -74,7 +74,7 @@
                         android:layout_marginRight="@dimen/dayWidth"/>
 
                     <TextView
-                        android:id="@+id/friday"
+                        android:id="@+id/friday_addEdit"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="Fri"
@@ -82,7 +82,7 @@
                         android:layout_marginRight="@dimen/dayWidth"/>
 
                     <TextView
-                        android:id="@+id/saturday"
+                        android:id="@+id/saturday_addEdit"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="Sat"
