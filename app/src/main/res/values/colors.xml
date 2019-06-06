@@ -5,8 +5,15 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorOffWhite">#F9F3EF</color>
+
+
     <color name="colorGray">#656566</color>
     <color name="colorLightGray">#909091</color>
     <color name="colorBlack">#000000</color>
+
+    <color name="colorTintGreen">#2C702F</color>
+    <color name="colorTintOrange">#C46F3B</color>
+    <color name="colorTintRed">#9B2525</color>
 
 </resources>

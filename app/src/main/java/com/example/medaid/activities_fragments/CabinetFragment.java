@@ -13,9 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.medaid.R;
 import com.example.medaid.adapters.CabinetRecyclerAdapter;
 import com.example.medaid.models.Prescription;
-import com.example.medaid.R;
 import com.example.medaid.persistence.PrescriptionRepository;
 
 import java.util.ArrayList;
@@ -84,7 +84,7 @@ public class CabinetFragment extends Fragment implements CabinetRecyclerAdapter.
     }
 
     private void retrievePrescriptions() {
-        mPrescriptionRepository.retrievePrescriptionsTask().observe(this, new Observer<List<Prescription>>() {
+        mPrescriptionRepository.retrievePrescriptionsTaskLive().observe(this, new Observer<List<Prescription>>() {
             @Override
             public void onChanged(@Nullable List<Prescription> prescriptions) {
                 if (mPrescriptions.size() > 0) {

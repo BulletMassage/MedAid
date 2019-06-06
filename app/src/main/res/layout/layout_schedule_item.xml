@@ -20,18 +20,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/item_time"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12:14 AM"
-                    android:textSize="18sp"
-                    android:layout_marginRight="32dp"/>
+                    android:orientation="vertical"
+                    android:layout_marginRight="32dp">
+
+                    <TextView
+                        android:id="@+id/time_addEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="12:14 AM"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/daily_addEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Daily"
+                        android:textSize="18sp"
+                        android:layout_marginRight="@dimen/dayWidth"/>
 
                     <TextView
                         android:id="@+id/sunday_addEdit"
@@ -93,11 +108,39 @@
 
             </LinearLayout>
 
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginTop="22dp">
+
+                <ImageView
+                    android:id="@+id/pillIcon_addEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_pill"
+                    android:backgroundTint="@color/colorGray"
+                    android:scaleY=".45"
+                    android:scaleX=".45"
+                    android:layout_marginBottom="-3sp"/>
+
+                <TextView
+                    android:id="@+id/dose_addEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:text="(1)"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+
             <ImageView
                 android:id="@+id/delete_weeklySchedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_remove_circle_black_24dp"
+                android:background="@drawable/ic_minus_circle"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="8dp"
                 />
@@ -110,7 +153,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="126dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="2dp"
         android:background="@color/colorLightGray" />
 
 </LinearLayout>

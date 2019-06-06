@@ -14,10 +14,14 @@ import java.util.List;
 @Dao
 public interface PrescriptionDao {
     @Insert
-    void insertPrescriptions(Prescription... prescriptions);
+    Long insertPrescriptions(Prescription prescription);
 
     @Query("SELECT * FROM prescriptions")
     LiveData<List<Prescription>> getPrescriptions();
+
+    @Query("SELECT * FROM prescriptions")
+    List<Prescription> getAllPrescriptions();
+
 
     @Delete
     void deletePrescription(Prescription... prescriptions);

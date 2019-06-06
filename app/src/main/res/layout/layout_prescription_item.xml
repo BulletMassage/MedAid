@@ -11,70 +11,51 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginLeft="16dp"
+            android:id="@+id/item_bottleDrawable"
+            android:layout_width="25dp"
+            android:layout_height="37dp"
             android:layout_gravity="center"
-            android:scaleX=".7"
-            android:scaleY=".9"
+            android:layout_marginLeft="16dp"
             android:background="@drawable/ic_prescription_bottle"
-            android:backgroundTint="@color/colorGray"/>
+            android:scaleX="1.1"
+            android:scaleY=".8" />
 
-<!--        <TextView
-            android:id="@+id/item_quantity"
-            android:text="1"
-            android:textSize="16sp"
+        <!--Title and Description-->
+        <TextView
+            android:id="@+id/item_title"
+            android:text="Title"
+            android:textSize="18sp"
             android:fontFamily="sans-serif"
             android:textColor="@color/colorBlack"
 
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginLeft="16dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:scaleType="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="32dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+
+            />
+
+<!--            <TextView
+            android:id="@+id/item_description"
+            android:text="Description"
+            android:textSize="12sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/colorGray"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             />-->
 
-        <!--Title and Description-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginLeft="32dp">
 
-            <TextView
-                android:id="@+id/item_title"
-                android:text="Title"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif"
-                android:textColor="@color/colorBlack"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-
-                android:layout_marginTop="18dp"
-                />
-
-            <TextView
-                android:id="@+id/item_description"
-                android:text="Description"
-                android:textSize="12sp"
-                android:fontFamily="sans-serif"
-                android:textColor="@color/colorGray"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                />
-
-        </LinearLayout>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="72dp"
+        android:layout_marginStart="74dp"
 
         android:background="@color/colorLightGray" />
 

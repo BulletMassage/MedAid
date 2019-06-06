@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @Entity(tableName = "prescriptions")
-public class Prescription implements Parcelable {
+public class Prescription implements Parcelable, Cloneable {
 
     /*--------------------Variables--------------------*/
 
@@ -42,6 +42,20 @@ public class Prescription implements Parcelable {
         this.description = description;
         this.quantity = quantity;
         this.schedule = schedule;
+    }
+
+    // Copy Constructor
+    @Ignore
+    public Prescription(Prescription prescription) {
+        this.title = prescription.getTitle();
+        this.description = prescription.getDescription();
+        this.quantity = prescription.getQuantity();
+
+        List<WeeklySchedule> weeklySchedule = new ArrayList<>();
+        for (WeeklySchedule instance : prescription.getSchedule()) {
+            weeklySchedule.add(new WeeklySchedule(instance));
+        }
+        this.schedule = weeklySchedule;
     }
 
     @Ignore

@@ -12,6 +12,9 @@ public class WeeklySchedule implements Parcelable{
     private String time;
     private int dose;
 
+
+    /*--------------------Constructors--------------------*/
+
     public WeeklySchedule() {
         days = new HashMap<>();
         time = "";
@@ -23,8 +26,22 @@ public class WeeklySchedule implements Parcelable{
         }
     }
 
+    // Copy Constructor
+    public WeeklySchedule(WeeklySchedule weeklySchedule) {
+        this.days = weeklySchedule.getDays();
+        this.time = weeklySchedule.getTime();
+        this.dose = weeklySchedule.getDose();
+    }
+
+
+    /*----------------Getter/Setter/Helper----------------*/
+
     public HashMap<String, Boolean> getDays() {
         return days;
+    }
+
+    public void setDays(HashMap<String, Boolean> daysT) {
+        days = daysT;
     }
 
     public Boolean hasDay(String day) {

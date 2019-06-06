@@ -1,7 +1,5 @@
 package com.example.medaid.activities_fragments;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,17 +17,10 @@ import android.widget.Button;
 
 import com.example.medaid.R;
 import com.example.medaid.adapters.ScheduleRecyclerAdapter;
-import com.example.medaid.helpers.AlertReceiver;
-import com.example.medaid.helpers.CalendarTypeConverter;
-import com.example.medaid.helpers.NotificationHelper;
+import com.example.medaid.helpers.AlarmHelper;
 import com.example.medaid.models.Prescription;
 import com.example.medaid.models.WeeklySchedule;
 import com.example.medaid.persistence.PrescriptionRepository;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
 
 public class AddEditPrescriptionActivity extends AppCompatActivity {
 
@@ -46,18 +36,21 @@ public class AddEditPrescriptionActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
 
     /*vars*/
+    private Context mContext;
+    private Prescription originalPrescription;
     private Prescription mPrescription;
     private PrescriptionRepository mPrescriptionRepository;
     private ScheduleRecyclerAdapter mScheduleRecyclerAdapter;
-    private List<WeeklySchedule> canceledWeeklySchedules;
 
     private static final int REQUEST_CODE = 1;
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_add_edit_prescription, menu);
+        if (getIntent().hasExtra("prescription")) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_add_edit_prescription, menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -72,8 +65,8 @@ public class AddEditPrescriptionActivity extends AppCompatActivity {
     }
 
     private void initializeVariables() {
+        mContext = this;
         mPrescriptionRepository = new PrescriptionRepository(this);
-        canceledWeeklySchedules = new ArrayList<>();
 
         // UI Initialization
         mTitleEditText = findViewById(R.id.addEdit_title);
@@ -92,16 +85,19 @@ public class AddEditPrescriptionActivity extends AppCompatActivity {
         // Set TextInputEditText
         if (getIntent().hasExtra("prescription")) {
             mPrescription = getIntent().getParcelableExtra("prescription");
+            originalPrescription = new Prescription(mPrescription);
+
             mTitleEditText.getEditText().setText(mPrescription.getTitle());
             mDescriptionEditText.getEditText().setText(mPrescription.getDescription());
 
             if (mPrescription.getQuantity() >= 0) {
                 mQuantityEditText.getEditText().setText(mPrescription.getQuantity() + "");
             }
+
             getSupportActionBar().setTitle("Edit");
         } else {
             mPrescription = new Prescription();
-            getSupportActionBar().setTitle("Add");
+            getSupportActionBar().setTitle("Add Prescription");
         }
     }
 
@@ -115,12 +111,12 @@ public class AddEditPrescriptionActivity extends AppCompatActivity {
             @Override
             public void onDeleteClick(int position) {
                 WeeklySchedule weeklySchedule = mPrescription.getSchedule().get(position);
-                canceledWeeklySchedules.add(weeklySchedule);
                 mPrescription.deleteWeeklySchedule(weeklySchedule);
                 mScheduleRecyclerAdapter.notifyDataSetChanged();
             }
         });
     }
+
 
     private void initializeSetOnClick() {
         // Override toolbar onClick back
@@ -148,13 +144,15 @@ public class AddEditPrescriptionActivity extends AppCompatActivity {
                     mPrescription.setQuantity(Integer.valueOf(mQuantityEditText.getEditText().getText().toString()));
                 }
                 if (!getIntent().hasExtra("prescription")) {
-                    mPrescriptionRepository.insertPrescriptionTask(mPrescription);
+                    Long prescriptionID = mPrescriptionRepository.insertPrescriptionTask(mPrescription);
+                    mPrescription.setId(prescriptionID.intValue());
+                    AlarmHelper.startAlarms(mContext, mPrescription, mPrescription.getSchedule().toArray(new WeeklySchedule[0]));
                 } else {
                     mPrescriptionRepository.updatePrescriptionTask(mPrescription);
+                    AlarmHelper.cancelAlarms(mContext, originalPrescription, originalPrescription.getSchedule().toArray(new WeeklySchedule[0]));
+                    AlarmHelper.startAlarms(mContext, mPrescription, mPrescription.getSchedule().toArray(new WeeklySchedule[0]));
                 }
 
-                cancelDeletedAlarms();
-                startAlarms();
                 onBackPressed();
                 }
             });
@@ -182,15 +180,17 @@ public class AddEditPrescriptionActivity extends AppCompatActivity {
     // OnClick delete from menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.delete_prescription_menu) {
-            if (getIntent().hasExtra("prescription")) {
+        switch (item.getItemId()) {
+            case R.id.delete_prescription_menu:
                 mPrescriptionRepository.deletePrescriptionTask(mPrescription);
-            }
-            onBackPressed();
-            return true;
+                AlarmHelper.cancelAlarms(mContext, originalPrescription, originalPrescription.getSchedule().toArray(new WeeklySchedule[0]));
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return false;
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -207,69 +207,11 @@ public class AddEditPrescriptionActivity extends AppCompatActivity {
         }
     }
 
-    private void startAlarms() {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-        // for every weekly schedule
-        for (WeeklySchedule weeklySchedule : mPrescription.getSchedule()) {
-            String time = weeklySchedule.getTime();
-
-            // for each day in that schedule
-            for (HashMap.Entry<String, Boolean> dayMap: weeklySchedule.getDays().entrySet()) {
-
-                if (dayMap.getValue()) {
-                    String dayNameFromBug = dayMap.getKey().split("/")[1];
-                    String day = dayNameFromBug.substring(0, 1).toUpperCase() + dayNameFromBug.substring(1);
-                    int notificationID = NotificationHelper.requestCodeFromIdDate(String.valueOf(mPrescription.getId()), dayMap.getKey(), time);
-
-                    // Alarm init
-                    Calendar calendar = CalendarTypeConverter.calendarFromDayTime(day, time);
-
-                    Intent intent = new Intent(this, AlertReceiver.class);
-                    intent.putExtra("notificationID", notificationID);
-                    intent.putExtra("title", mPrescription.getTitle());
-                    intent.putExtra("dose", weeklySchedule.getDose());
-
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, notificationID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-
-                }
-
-            }
-        }
-    }
-
-    private void cancelDeletedAlarms() {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiver.class);
-
-        // for every weekly schedule
-        for (WeeklySchedule weeklySchedule : canceledWeeklySchedules) {
-            String time = weeklySchedule.getTime();
-
-            // for each day in that schedule
-            for (HashMap.Entry<String, Boolean> dayMap: weeklySchedule.getDays().entrySet()) {
-
-                if (dayMap.getValue()) {
-                    String dayNameFromBug = dayMap.getKey().split("/")[1];
-                    String day = dayNameFromBug.substring(0, 1).toUpperCase() + dayNameFromBug.substring(1);
-                    int requestCode = NotificationHelper.requestCodeFromIdDate(String.valueOf(mPrescription.getId()), dayMap.getKey(), time);
-
-                    Calendar calendar = CalendarTypeConverter.calendarFromDayTime(day, time);
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, requestCode, intent, 0);
-                    alarmManager.cancel(pendingIntent);
-
-                    Log.d("AlarmCanceled", CalendarTypeConverter.calendarToString(calendar));
-                }
-
-            }
-        }
-    }
-
     // Override onBackPressed() for animations
     @Override
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right);
     }
+
 }

@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import com.example.medaid.models.Prescription;
 import com.example.medaid.persistence.PrescriptionDao;
 
-public class InsertAsyncTask extends AsyncTask<Prescription, Void, Void> {
+public class InsertAsyncTask extends AsyncTask<Prescription, Void, Long> {
 
     private PrescriptionDao mPrescriptionDao;
 
@@ -14,8 +14,7 @@ public class InsertAsyncTask extends AsyncTask<Prescription, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Prescription... prescriptions) {
-        mPrescriptionDao.insertPrescriptions(prescriptions);
-        return null;
+    protected Long doInBackground(Prescription... prescriptions) {
+        return mPrescriptionDao.insertPrescriptions(prescriptions[0]);
     }
 }

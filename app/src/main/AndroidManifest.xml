@@ -2,12 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.medaid">
 
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <application
         android:name=".MedAid"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_heartbeat"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_heartbeat"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -23,7 +25,8 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".helpers.AlertReceiver"/>
+        <receiver android:name=".helpers.AlarmReceiver"/>
+        <receiver android:name=".helpers.NotificationAcceptedReceiver"/>
 
     </application>
 

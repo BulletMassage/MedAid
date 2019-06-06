@@ -5,13 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.medaid.R;
-import com.example.medaid.models.WeeklySchedule;
-
-import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,16 +15,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        WeeklySchedule weeklySchedule = new WeeklySchedule();
-
-        weeklySchedule.insertDay("Sunday");
-
-        for (HashMap.Entry<String, Boolean> dayMap: weeklySchedule.getDays().entrySet()) {
-            if (dayMap.getValue()) {
-                Log.d("Test", "True: " + dayMap.getKey());
-            }
-        }
 
         // bottom drawer fragment navigation
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);

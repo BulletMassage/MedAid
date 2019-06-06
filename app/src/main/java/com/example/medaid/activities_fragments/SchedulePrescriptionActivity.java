@@ -8,9 +8,6 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -42,13 +39,6 @@ public class SchedulePrescriptionActivity extends AppCompatActivity {
     private List<String> days = Arrays.asList("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday");
     private static final String ID = "_schedulePrescription";
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_add_edit_prescription, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,10 +122,7 @@ public class SchedulePrescriptionActivity extends AppCompatActivity {
                 WeeklySchedule mWeeklySchedule = new WeeklySchedule();
                 if (!mDose.getEditText().getText().toString().matches("")) {
                     mWeeklySchedule.setDose(Integer.valueOf(mDose.getEditText().getText().toString()));
-                } else {
-                    mWeeklySchedule.setDose(-1);
                 }
-
 
                 // Create new weekly schedule with selected days
                 mWeeklySchedule.setTime(CalendarTypeConverter.getTimeFormat(mCalendar));
@@ -154,11 +141,9 @@ public class SchedulePrescriptionActivity extends AppCompatActivity {
                     toastMessage.setTextSize(18);
                     toastMessage.setTextColor(getResources().getColor(R.color.colorGray));
                     toastView.setBackgroundColor(Color.TRANSPARENT);
-                    toast.setGravity(Gravity.CENTER, 0, 36);
                     toast.show();
                     return;
                 }
-
 
                 output.putExtra("WeeklySchedule", mWeeklySchedule);
                 setResult(RESULT_OK, output);

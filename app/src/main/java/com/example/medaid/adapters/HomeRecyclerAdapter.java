@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class ScheduleRecyclerAdapter extends RecyclerView.Adapter<ScheduleRecyclerAdapter.ScheduleViewHolder> {
+public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapter.ScheduleViewHolder> {
     private List<WeeklySchedule> mScheduleList;
     private OnItemClickListener mListener;
 
@@ -75,7 +75,7 @@ public class ScheduleRecyclerAdapter extends RecyclerView.Adapter<ScheduleRecycl
         }
     }
 
-    public ScheduleRecyclerAdapter(List<WeeklySchedule> mScheduleList) {
+    public HomeRecyclerAdapter(List<WeeklySchedule> mScheduleList) {
         this.mScheduleList = mScheduleList;
     }
 
