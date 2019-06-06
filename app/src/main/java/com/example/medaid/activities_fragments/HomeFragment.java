@@ -16,7 +16,6 @@ import com.example.medaid.adapters.HomeRecyclerAdapterOld;
 import com.example.medaid.async.RetrievePrescriptionsAsyncTask;
 import com.example.medaid.models.Prescription;
 import com.example.medaid.models.WeeklySchedule;
-import com.example.medaid.persistence.PrescriptionRepository;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -32,7 +31,6 @@ public class HomeFragment extends Fragment {
 
     /*vars*/
     private List<Prescription> mPrescriptions;
-    private PrescriptionRepository mPrescriptionRepository;
     private HomeRecyclerAdapterOld mHomeRecyclerAdapterOld;
 
 

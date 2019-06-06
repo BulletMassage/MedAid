@@ -48,6 +48,10 @@ public class PrescriptionRepository {
         deleteAsyncTask.execute(prescription);
     }
 
+    public void deletePrescriptionsListTask(Prescription... prescriptions) {
+        deleteAsyncTask.execute(prescriptions);
+    }
+
 
 
 }

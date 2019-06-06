@@ -22,7 +22,6 @@ public interface PrescriptionDao {
     @Query("SELECT * FROM prescriptions")
     List<Prescription> getAllPrescriptions();
 
-
     @Delete
     void deletePrescription(Prescription... prescriptions);
 
